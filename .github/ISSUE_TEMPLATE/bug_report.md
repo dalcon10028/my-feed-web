@@ -1,15 +1,15 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: ""
 labels: bug
-assignees: ''
-
+assignees: ""
 ---
 
 ## 버그 설명
 
 ## 버그 재연 방법
+
 1. ㅁㄴㅇㄹ
 2. ㅁㄴㅇㄹ
 

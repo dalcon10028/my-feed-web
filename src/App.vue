@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+  import { reactive } from 'vue';
+  import { useRoute } from 'vue-router';
 
-interface Counter {
-  me: number
-}
+  const route = useRoute();
 
-let counter = reactive<Counter>({
-  me: 0
-})
+  interface Counter {
+    me: number;
+  }
 
-setInterval(() => {
-  counter.me++;
-}, 1000)
+  let counter = reactive<Counter>({
+    me: 0
+  });
+
+  setInterval(() => {
+    counter.me++;
+  }, 1000);
 </script>
 
 <template>
   <div>
-    <header class="bg-white shadow" v-if="$route.meta.title">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1
-          @click="counter.me = 0"
-          class="text-3xl font-bold leading-tight text-gray-900"
-        >
-          {{ $route.meta.title }} / {{ counter.me }}
+    <header v-if="route.meta.title" class="bg-white shadow">
+      <div class="py-6 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight text-gray-900" @click="counter.me = 0">
+          {{ route.meta.title }} / {{ counter.me }}
         </h1>
       </div>
     </header>
