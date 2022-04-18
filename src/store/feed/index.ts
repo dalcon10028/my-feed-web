@@ -1,3 +1,5 @@
+// import { UPDATE_FEEDS } from './mutation-types';
+
 export default {
   namespace: true,
   state: () => ({
@@ -30,5 +32,11 @@ export default {
       }
     ]
   }),
-  getters: {}
+  getters: {},
+  mutations: {
+    // [UPDATE_FEEDS](state, feeds) {
+    //   state.feeds = feeds;
+    // }
+  },
+  actions: {}
 };

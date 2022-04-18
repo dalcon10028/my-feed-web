@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="max-w-none text-gray-500 prose">
+  <div class="max-w-none text-gray-500 truncate prose">
     {{ props.description }}
   </div>
 </template>
