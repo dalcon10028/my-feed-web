@@ -7,6 +7,9 @@
 <template>
   <DefaultLayout>
     <MainTitle />
-    <FeedList />
+    <Suspense>
+      <FeedList />
+      <template #fallback> Loading... </template>
+    </Suspense>
   </DefaultLayout>
 </template>
