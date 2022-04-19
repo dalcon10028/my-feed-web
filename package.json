@@ -14,8 +14,7 @@
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
     "vuex": "^4.0.2",
-    "yup": "^0.32.11",
-    "yup-locale-ko": "^0.0.4"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@headlessui/vue": "^1.5.0",

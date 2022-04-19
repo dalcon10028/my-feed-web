@@ -12,7 +12,7 @@ export default [
   {
     path: '/signup',
     name: 'signup',
-    component: () => import('@/views/EmailLoginPage.vue')
+    component: () => import('@/views/SignUpPage.vue')
   },
   {
     path: '/forgot-password',
