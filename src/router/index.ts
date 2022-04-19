@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import UserRoutes from './user';
 
 const routes = [
   {
@@ -10,6 +11,7 @@ const routes = [
     name: 'Main',
     component: () => import('@/views/HomePage.vue')
   },
+  ...UserRoutes,
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
