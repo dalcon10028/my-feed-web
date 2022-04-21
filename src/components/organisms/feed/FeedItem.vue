@@ -30,7 +30,7 @@
           <FeedTitle :title="props.title" />
           <FeedDescription :description="props.description" />
         </div>
-        <div class="mb-2">
+        <div class="flex mb-2 space-x-1">
           <FeedTag />
         </div>
         <div class="text-base font-medium leading-6">

@@ -5,20 +5,20 @@
     <div class="p-4 mx-auto max-w-screen-xl">
       <div class="flex justify-between items-center space-x-4 lg:space-x-10">
         <div class="flex lg:flex-1 lg:w-0">
-          <h1 class="font-bold">My Feed</h1>
+          <router-link to="/" class="font-bold">My Feed</router-link>
         </div>
 
-        <nav class="hidden space-x-8 text-sm font-medium md:flex">
+        <!-- <nav class="hidden space-x-8 text-sm font-medium md:flex">
           <a class="text-gray-500" href="">About</a>
           <a class="text-gray-500" href="">Blog</a>
           <a class="text-gray-500" href="">Projects</a>
           <a class="text-gray-500" href="">Contact</a>
-        </nav>
+        </nav> -->
 
         <div class="hidden flex-1 justify-end items-center space-x-4 sm:flex">
-          <a class="py-2 px-5 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg" href=""> Log in </a>
-
-          <a class="py-2 px-5 text-sm font-medium text-white bg-blue-600 rounded-lg" href=""> Sign up </a>
+          <router-link to="/login" class="py-2 px-5 text-sm font-medium text-white bg-blue-600 rounded-lg"
+            >로그인</router-link
+          >
         </div>
 
         <div class="lg:hidden">
