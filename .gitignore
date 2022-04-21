@@ -6,3 +6,8 @@ dist-ssr
 debug.log
 .idea
 yarn.lock
+
+# env
+.env
+.env.local
+.env.production
