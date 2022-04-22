@@ -16,7 +16,9 @@
         </nav> -->
 
         <div class="hidden flex-1 justify-end items-center space-x-4 sm:flex">
-          <router-link to="/login" class="py-2 px-5 text-sm font-medium text-white bg-blue-600 rounded-lg"
+          <router-link
+            to="/login"
+            class="py-2 px-5 text-sm font-medium bg-gray-200 hover:bg-primary rounded-lg border-2 border-accent border-dashed"
             >로그인</router-link
           >
         </div>
