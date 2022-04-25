@@ -13,7 +13,7 @@
     "vee-validate": "^4.5.11",
     "vue": "^3.2.31",
     "@vueuse/core": "^8.2.6",
-    "@vueuse/integrations": "^8.2.6",
+    "@vueuse/integrations": "^8.3.1",
     "axios": "^0.26.1",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14",
