@@ -1,7 +1,20 @@
+<script setup lang="ts">
+  import DefaultLayout from './layout/DefaultLayout.vue';
+</script>
+
 <template>
-  <header class="bg-white shadow">
-    <div class="py-6 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold leading-tight text-gray-900">Not Found</h1>
+  <DefaultLayout>
+    <div class="text-center">
+      <h1 class="text-9xl text-primary-200">404</h1>
+      <h2 class="mb-8 text-2xl text-primary-100">Page Not Found</h2>
+
+      <img
+        src="https://www.hyperui.dev/photos/confused-travolta.gif"
+        alt="John Travolta confused"
+        class="object-cover mx-auto h-64 rounded-lg"
+      />
+
+      <p class="mt-6 text-gray-500">페이지를 찾을 수 없습니다</p>
     </div>
-  </header>
+  </DefaultLayout>
 </template>

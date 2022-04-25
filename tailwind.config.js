@@ -9,9 +9,11 @@ module.exports = {
         sans: ['"Inter var"', ...defaultTheme.fontFamily.sans]
       },
       colors: {
-        primary: '#c7dfc7',
-        secondary: '#d2ead2',
-        accent: '#3c4f3c'
+        'primary-500': '#3ab795',
+        'primary-300': '#a0e8af',
+        'primary-700': '#86baa1',
+        'secondary-500': '#ffcf56',
+        'secondary-300': '#edead0'
       }
     }
   },
