@@ -3,7 +3,6 @@
   import FeedTitle from '../../molecules/title/FeedTitle.vue';
   import FeedDescription from '../../atoms/feed/FeedDescription.vue';
   import FeedTimeStamp from '../../molecules/date/FeedTimeStamp.vue';
-  import FeedReadMore from '@/components/atoms/feed/FeedReadMore.vue';
 
   interface Channel {
     name: string;
@@ -18,6 +17,7 @@
     link: string;
     pubDate: string;
     description: string;
+    tags: string[];
   }>();
 </script>
 
@@ -31,11 +31,9 @@
           <FeedDescription :description="props.description" />
         </div>
         <div class="flex mb-2 space-x-1">
-          <FeedTag />
+          <FeedTag v-for="(tag, idx) in tags" :key="idx" :tag="tag" />
         </div>
-        <div class="text-base font-medium leading-6">
-          <FeedReadMore />
-        </div>
+        <!-- <div class="text-base font-medium leading-6"></div> -->
       </div>
     </article>
   </li>

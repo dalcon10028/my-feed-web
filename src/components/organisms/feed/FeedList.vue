@@ -16,6 +16,7 @@
       :link="feed.link"
       :pub-date="feed.pubDate"
       :description="feed.description"
+      :tags="feed.tags"
     />
   </ul>
 </template>
