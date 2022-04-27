@@ -3,7 +3,7 @@
     <label for="new">
       <input id="new" class="peer hidden" type="checkbox" name="new" />
       <div
-        class="flex relative justify-center items-center m-1 mr-2 w-12 h-12 text-xl text-white peer-checked:text-white bg-primary-100 peer-checked:bg-red-700 hover:bg-primary-300 rounded-full border-2 border-primary-300 border-dashed"
+        class="flex relative justify-center items-center m-1 mr-2 w-12 h-12 text-xl text-white peer-checked:text-white peer-checked:bg-red-700 hover:bg-primary-300 rounded-full border-2 border-primary-300 border-dashed"
       >
         new
       </div>

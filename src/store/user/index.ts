@@ -1,4 +1,3 @@
-import { useStorage, type RemovableRef } from '@vueuse/core';
 import { fetchUserProfile } from '@/apis/users';
 import instance from '@/apis/instance';
 import { FETCH_JWT_TOKEN, FETCH_USER_PROFILE } from './mutation-types';
@@ -16,16 +15,18 @@ interface User {
 export default {
   namespaced: true,
   state: () => ({
-    user: {}
+    user: {},
+    jwtToken: localStorage.getItem('myfeed-token') ?? ''
   }),
   getters: {
-    isLogin(state: { jwtToken: string }) {
-      return !!state.jwtToken;
+    isLogin(state: { user: any }) {
+      return !!state.user.id;
     }
   },
   mutations: {
-    [FETCH_JWT_TOKEN](state: { jwtToken: RemovableRef<unknown> }, jwtToken: unknown) {
-      state.jwtToken = useStorage('myfeed-token', jwtToken);
+    [FETCH_JWT_TOKEN](state: { jwtToken: string }, jwtToken: string) {
+      state.jwtToken = jwtToken;
+      localStorage.setItem('myfeed-token', jwtToken);
       instance.interceptors.request.use((config: any) => {
         config.headers.Authorization = `Bearer ${jwtToken}`;
         return config;
@@ -37,8 +38,16 @@ export default {
   },
   actions: {
     async fetchUserProfile({ commit }: any) {
-      const { data } = fetchUserProfile();
-      commit(FETCH_USER_PROFILE, data);
+      /* 프로필 갱신 */
+      try {
+        const { data } = await fetchUserProfile();
+        commit(FETCH_USER_PROFILE, data);
+      } catch (error: any) {
+        /* 토큰이 유효하지 않을 경우 삭제 */
+        if (error.request.statusText === 'Unauthorized') {
+          localStorage.removeItem('myfeed-token');
+        }
+      }
     }
   }
 };

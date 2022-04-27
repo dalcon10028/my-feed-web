@@ -1,6 +1,6 @@
-import { useAxios } from '@vueuse/integrations/useAxios';
+import type { AxiosPromise } from 'axios';
 import instance from './instance';
 
-export const fetchUserProfile = () => {
-  return useAxios('/users/profile', instance);
+export const fetchUserProfile = (): AxiosPromise => {
+  return instance.get('/users/profile');
 };
