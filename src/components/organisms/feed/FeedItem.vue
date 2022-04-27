@@ -30,7 +30,7 @@
           <FeedTitle :title="props.title" />
           <FeedDescription :description="props.description" />
         </div>
-        <div class="flex mb-2 space-x-1">
+        <div class="flex flex-wrap mb-2 space-x-1">
           <FeedTag v-for="(tag, idx) in tags" :key="idx" :tag="tag" />
         </div>
         <!-- <div class="text-base font-medium leading-6"></div> -->
