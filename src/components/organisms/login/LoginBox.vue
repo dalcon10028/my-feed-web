@@ -4,7 +4,7 @@
   <DefaultLayout>
     <div class="py-16 px-4 mx-auto max-w-screen-xl sm:px-6 lg:px-8">
       <div class="mx-auto max-w-lg">
-        <h1 class="text-2xl font-bold text-center text-indigo-600 sm:text-3xl">
+        <h1 class="text-2xl font-bold text-center text-primary-500 sm:text-3xl">
           <slot name="title"> My Feed </slot>
         </h1>
 
@@ -15,7 +15,9 @@
           </slot>
         </p>
 
-        <slot />
+        <div class="overflow-hidden relative p-8 mt-4 rounded-lg border border-gray-100 shadow">
+          <slot />
+        </div>
       </div>
     </div>
   </DefaultLayout>

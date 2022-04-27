@@ -10,8 +10,8 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
-    "@vueuse/integrations": "^8.3.1",
     "@vueuse/core": "^8.3.1",
+    "@vueuse/integrations": "^8.3.1",
     "axios": "^0.26.1",
     "vee-validate": "^4.5.11",
     "vue": "^3.2.33",
@@ -20,7 +20,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@headlessui/vue": "^1.5.0",
+    "@headlessui/vue": "^1.6.0",
     "@heroicons/vue": "^1.0.6",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.0",
