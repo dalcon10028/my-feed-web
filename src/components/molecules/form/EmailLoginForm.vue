@@ -3,6 +3,9 @@
   import { computed, ref } from 'vue';
   import { useForm, useField } from 'vee-validate';
   import { AtSymbolIcon, EyeIcon, EyeOffIcon } from '@heroicons/vue/outline';
+  import { userLogin } from '@/apis/users';
+  import type { AxiosError } from 'axios';
+  import axios from 'axios';
 
   const loginSchema = yup.object({
     username: yup.string().required('아이디를 입력해주세요').email('이메일 형식으로 입력해주세요'),
@@ -11,8 +14,8 @@
 
   const { errors } = useForm({ validationSchema: loginSchema });
 
-  const { value: username } = useField('username');
-  const { value: password } = useField('password');
+  const { value: username } = useField<string>('username');
+  const { value: password } = useField<string>('password');
 
   const existError = computed(() => errors.value.username || errors.value.password);
 
@@ -21,6 +24,23 @@
   const passwordEye = computed(() => passwordType.value === 'password');
   const togglePasswordType = () => {
     passwordType.value = passwordType.value === 'password' ? 'text' : 'password';
+  };
+
+  /** 로그인 */
+  const login = async () => {
+    try {
+      await userLogin({
+        email: username.value,
+        password: password.value
+      });
+    } catch (error) {
+      const errors = error as Error | AxiosError;
+      if (axios.isAxiosError(error)) {
+        alert(error.response?.data.message);
+      } else {
+        alert(error);
+      }
+    }
   };
 </script>
 
@@ -65,5 +85,7 @@
     </div>
   </div>
 
-  <button class="block py-3 px-5 my-5 w-full text-sm font-medium text-white bg-primary-500 rounded-lg">로그인</button>
+  <button class="block py-3 px-5 my-5 w-full text-sm font-medium text-white bg-primary-500 rounded-lg" @click="login">
+    로그인
+  </button>
 </template>
