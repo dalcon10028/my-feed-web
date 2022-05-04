@@ -2,14 +2,24 @@ import type { AxiosPromise } from 'axios';
 import instance from './instance';
 
 interface LoginUserDto {
-  email: string;
+  username: string;
   password: string;
 }
 
-export const userLogin = (loginUserDto: LoginUserDto): AxiosPromise => {
-  return instance.post('/users/login', loginUserDto);
-};
+interface SignUpDto {
+  username: string;
+  nickname: string;
+  password: string;
+}
 
-export const fetchUserProfile = (): AxiosPromise => {
-  return instance.get('/users/profile');
-};
+interface SignUpResponseDto {
+  username: string;
+  token: string;
+}
+
+export const userLogin = (loginUserDto: LoginUserDto): AxiosPromise<SignUpResponseDto> =>
+  instance.post('/users/login', loginUserDto);
+
+export const userSignUp = (signUpDto: SignUpDto): AxiosPromise => instance.post('/users', signUpDto);
+
+export const fetchUserProfile = (): AxiosPromise => instance.get('/users/profile');
