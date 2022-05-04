@@ -27,7 +27,7 @@
       <FeedTimeStamp :pub-date="props.pubDate" />
       <div class="space-y-5 xl:col-span-3">
         <div class="space-y-6">
-          <FeedTitle :title="props.title" />
+          <FeedTitle :title="props.title" :link="props.link" />
           <FeedDescription :description="props.description" />
         </div>
         <div class="feed-item-tag-list">
