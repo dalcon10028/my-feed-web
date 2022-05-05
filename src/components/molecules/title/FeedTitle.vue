@@ -1,12 +1,13 @@
 <script setup lang="ts">
   const props = defineProps<{
     title: string;
+    link: string;
   }>();
 </script>
 
 <template>
   <h2 class="text-2xl font-bold tracking-tight leading-8">
-    <router-link to="/" class="feed-title">{{ props.title }}</router-link>
+    <a :href="props.link" class="feed-title">{{ props.title }}</a>
   </h2>
 </template>
 
