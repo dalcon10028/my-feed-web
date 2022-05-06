@@ -24,6 +24,13 @@ module.exports = {
   plugins: ['tailwindcss'],
   rules: {
     'no-console': 'warn',
-    '@typescript-eslint/explicit-module-boundary-types': 'off'
-  }
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: ['Layout']
+      }
+    ]
+  },
+  ignorePatterns: ['*rc.js']
 };
