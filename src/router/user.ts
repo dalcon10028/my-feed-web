@@ -1,4 +1,6 @@
-export default [
+import type { RouteRecordRaw } from 'vue-router';
+
+const userRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login-sns',
@@ -20,3 +22,5 @@ export default [
     component: () => import('@/views/EmailLoginPage.vue')
   }
 ];
+
+export default userRoutes;
