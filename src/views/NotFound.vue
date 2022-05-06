@@ -4,9 +4,9 @@
 
 <template>
   <DefaultLayout>
-    <div class="text-center">
-      <h1 class="text-9xl text-primary-200">404</h1>
-      <h2 class="mb-8 text-2xl text-primary-100">Page Not Found</h2>
+    <div class="mt-8 text-center">
+      <h1 class="text-9xl text-primary-700">404</h1>
+      <h2 class="mb-8 text-2xl text-primary-500">Page Not Found</h2>
 
       <img
         src="https://www.hyperui.dev/photos/confused-travolta.gif"
