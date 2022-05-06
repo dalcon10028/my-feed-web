@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import { Layout } from '@/layouts/layout-enum';
 import UserRoutes from './user';
 
 const routes: RouteRecordRaw[] = [
@@ -11,7 +12,8 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('@/views/NotFound.vue')
+    component: () => import('@/views/NotFound.vue'),
+    meta: { layout: Layout.NoNavigationLayout }
   }
 ];
 

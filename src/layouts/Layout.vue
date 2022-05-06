@@ -3,11 +3,15 @@
   import { useRoute } from 'vue-router';
   import { computed } from 'vue';
   import DefaultLayout from './DefaultLayout.vue';
+  import NoNavigationLayout from './NoNavigationLayout.vue';
+  import { Layout } from './layout-enum';
 
   const route = useRoute();
-  const layout = computed(() => route.meta.layout || 'DefaultLayout');
+  const layout = computed(() => route.meta.layout ?? Layout.DefaultLayout);
 </script>
 
 <template>
-  <component :is="layout"><slot /></component>
+  <component :is="layout">
+    <router-view />
+  </component>
 </template>
