@@ -1,11 +1,19 @@
 <script setup lang="ts">
   import { computed } from 'vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
   import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+  import { TokenStorage } from '@/utils/localStorage';
 
   const store = useStore();
+  const router = useRouter();
 
   const user = computed(() => store.state.user.user);
+
+  const logout = () => {
+    TokenStorage.removeToken();
+    router.go(0);
+  };
 </script>
 
 <template>
@@ -46,6 +54,7 @@
             <button
               class="hover:z-10 focus:z-10 grow py-3 px-5 font-medium hover:bg-gray-50 rounded-l-md border focus:border-primary-700 focus:outline-none active:opacity-75"
               type="button"
+              @click="logout"
             >
               로그아웃
             </button>
