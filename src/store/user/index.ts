@@ -1,22 +1,10 @@
 import { fetchUserProfile } from '@/apis/users';
-import instance from '@/apis/instance';
-import { FETCH_JWT_TOKEN, FETCH_USER_PROFILE } from './mutation-types';
+import { FETCH_USER_PROFILE } from './mutation-types';
 import type { ActionContext, ActionTree, GetterTree, Module, MutationTree } from 'vuex';
-import axios from 'axios';
-
-interface User {
-  id: number;
-  username: string;
-  nickname: string;
-  provider: string;
-  thumnail: string;
-  created_at: Date;
-  updated_at: Date;
-}
+import type { UserInfo } from './interfaces';
 
 export class State {
-  public user: User | object = {};
-  public jwtToken: string = localStorage.getItem('myfeed-token') ?? '';
+  public user: UserInfo | object = {};
 }
 
 const getters: GetterTree<State, unknown> = {
@@ -26,16 +14,18 @@ const getters: GetterTree<State, unknown> = {
 };
 
 const mutations: MutationTree<State> = {
-  [FETCH_JWT_TOKEN](state: { jwtToken: string }, jwtToken: string) {
-    state.jwtToken = jwtToken;
-    localStorage.setItem('myfeed-token', jwtToken);
-    instance.interceptors.request.use((config: any) => {
-      config.headers.Authorization = `Bearer ${jwtToken}`;
-      return config;
-    });
-  },
-  [FETCH_USER_PROFILE](state: State, userData: User) {
-    state.user = userData;
+  // [FETCH_JWT_TOKEN](state: { jwtToken: string }, jwtToken: string) {
+  //   TokenStorage.setToken(jwtToken);
+  //   instance.interceptors.request.use((config: AxiosRequestConfig) => ({
+  //     ...config,
+  //     headers: {
+  //       ...config.headers,
+  //       Authorization: `Bearer ${jwtToken}`
+  //     }
+  //   }));
+  // },
+  [FETCH_USER_PROFILE](state: State, userInfo: UserInfo) {
+    state.user = userInfo;
   }
 };
 
@@ -46,10 +36,7 @@ const actions: ActionTree<State, unknown> = {
       const { data } = await fetchUserProfile();
       commit(FETCH_USER_PROFILE, data);
     } catch (error) {
-      if (axios.isAxiosError(error) && error.request.statusText === 'Unauthorized')
-        /* 토큰이 유효하지 않을 경우 삭제 */
-        localStorage.removeItem('myfeed-token');
-      else alert(error);
+      console.error(error);
     }
   }
 };
