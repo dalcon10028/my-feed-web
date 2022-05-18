@@ -54,19 +54,18 @@
 
   const login = async () => {
     const { valid } = await validate();
-    if (valid) {
-      try {
-        const { token } = await userLogin({
-          username: username.value,
-          password: password.value
-        }).then((res) => res.data);
-        fetchToken(token);
-        router.push('/');
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          const { message } = error.response?.data as { message: string };
-          loginError.value = message;
-        }
+    if (!valid) return;
+    try {
+      const { token } = await userLogin({
+        username: username.value,
+        password: password.value
+      }).then((res) => res.data);
+      fetchToken(token);
+      router.push('/');
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const { message } = error.response?.data as { message: string };
+        loginError.value = message;
       }
     }
   };

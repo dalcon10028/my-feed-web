@@ -1,128 +1,154 @@
 <script setup lang="ts">
   import * as yup from 'yup';
-  import { computed, ref } from 'vue';
+  import { computed, reactive, ref, type ComputedRef } from 'vue';
   import { useForm, useField } from 'vee-validate';
   import { AtSymbolIcon, EyeIcon, EyeOffIcon } from '@heroicons/vue/outline';
+  import FormInput from '@/components/atoms/input/FormInput.vue';
   import { userSignUp } from '@/apis/users';
-  import axios, { type AxiosError } from 'axios';
+  import axios from 'axios';
+  import { useStore } from 'vuex';
+  import type { ModalMessage } from '@/store/interfaces';
+  import { OPEN_MODAL } from '@/store/mutation-types';
+  import { useRouter } from 'vue-router';
 
-  const loginSchema = yup.object({
+  const store = useStore();
+  const router = useRouter();
+
+  /* 회원가입 정보 */
+  const signUpSchema = yup.object({
     username: yup.string().required('아이디를 입력해주세요').email('이메일 형식으로 입력해주세요'),
     nickname: yup.string().required('닉네임을 입력해주세요').min(2, '닉네임은 2글자 이상이여야 합니다.'),
     password1: yup.string().required('비밀번호를 입력해주세요').min(8, '비밀번호는 8글자 이상이여야 합니다'),
     password2: yup.string().oneOf([yup.ref('password1'), null], '비밀번호가 일치하지 않습니다')
   });
 
-  const { errors } = useForm({ validationSchema: loginSchema });
+  const { errors, validate } = useForm({ validationSchema: signUpSchema });
 
   const { value: username } = useField<string>('username');
   const { value: nickname } = useField<string>('nickname');
   const { value: password1 } = useField<string>('password1');
   const { value: password2 } = useField<string>('password2');
 
-  const existError = computed(() => errors.value.username || errors.value.password1 || errors.value.password2);
-
   /** 비밀번호 보기 */
-  const passwordType = ref('password');
-  const passwordEye = computed(() => passwordType.value === 'password');
-  const togglePasswordType = () => {
-    passwordType.value = passwordType.value === 'password' ? 'text' : 'password';
-  };
+  interface PasswordLook {
+    type: string;
+    eyes: ComputedRef;
+    toggle: () => void;
+  }
+
+  const passwordLook: PasswordLook = reactive<PasswordLook>({
+    type: 'password',
+    eyes: computed(() => passwordLook.type === 'password'),
+    toggle: () => {
+      passwordLook.type = passwordLook.type === 'password' ? 'text' : 'password';
+    }
+  });
 
   /* 회원 가입 */
+  const signUpError = ref('');
+
   const signUp = async () => {
+    const { valid } = await validate();
+    if (!valid) return;
     try {
-      const result = await userSignUp({
+      await userSignUp({
         username: username.value,
         nickname: nickname.value,
         password: password1.value
       });
+      store.commit(OPEN_MODAL, {
+        title: '회원가입 성공',
+        description: '회원가입이 완료되었습니다.'
+      } as ModalMessage);
+      router.replace('/login/email');
     } catch (error) {
-      const err = error as Error | AxiosError;
-      if (axios.isAxiosError(err)) {
-        alert(err.response?.data.message);
-      } else {
-        alert(err);
+      if (axios.isAxiosError(error) && error.response) {
+        const { message } = error.response?.data as { message: string };
+        signUpError.value = message;
       }
     }
   };
 </script>
 
 <template>
-  <div v-if="existError" class="p-4 text-red-700 bg-red-50 rounded border border-red-900/10" role="alert">
-    <strong class="text-sm font-medium">{{ errors.username || errors.password1 || errors.password2 }}</strong>
+  <div v-if="signUpError" class="p-4 text-red-700 bg-red-50 rounded border border-red-900/10" role="alert">
+    <strong class="text-sm font-medium">{{ signUpError }}</strong>
   </div>
-  <div>
-    <label for="email" class="text-sm font-medium">이메일</label>
 
-    <div class="relative my-2">
-      <input
-        id="email"
-        v-model="username"
-        type="email"
-        class="p-4 pr-12 w-full text-sm rounded-lg border-gray-200 shadow-sm"
-        placeholder="이메일 주소를 입력해주세요"
-      />
-
+  <FormInput
+    id="email"
+    v-model="username"
+    :error="!!errors.username"
+    :error-message="errors.username"
+    label="이메일"
+    type="email"
+    placeholder="이메일 주소를 입력해주세요"
+  >
+    <template #icon>
       <span class="inline-flex absolute inset-y-0 right-4 items-center">
-        <AtSymbolIcon class="w-5 h-5 text-gray-400" />
+        <AtSymbolIcon class="w-5 h-5" :class="`text-${!!errors.username ? 'red-600' : 'gray-400'}`" />
       </span>
-    </div>
-  </div>
+    </template>
+  </FormInput>
 
-  <div>
-    <label for="nickname" class="text-sm font-medium">닉네임</label>
+  <FormInput
+    id="nickname"
+    v-model="nickname"
+    :error="!!errors.nickname"
+    :error-message="errors.nickname"
+    label="닉네임"
+    type="text"
+    placeholder="닉네임을 입력해주세요"
+  >
+  </FormInput>
 
-    <div class="relative my-2">
-      <input
-        id="nickname"
-        v-model="nickname"
-        type="text"
-        class="p-4 pr-12 w-full text-sm rounded-lg border-gray-200 shadow-sm"
-        placeholder="닉네임을 입력해주세요"
-      />
-    </div>
-  </div>
-
-  <div>
-    <label for="password" class="text-sm font-medium">비밀번호</label>
-
-    <div class="relative my-2">
-      <input
-        id="password"
-        v-model="password1"
-        :type="passwordType"
-        class="p-4 pr-12 w-full text-sm rounded-lg border-gray-200 shadow-sm"
-        placeholder="비밀번호를 입력해주세요"
-      />
-
-      <button class="inline-flex absolute inset-y-0 right-4 items-center" @click="togglePasswordType">
-        <EyeOffIcon v-if="passwordEye" class="w-5 h-5 text-gray-400" />
-        <EyeIcon v-else class="w-5 h-5 text-gray-400" />
+  <FormInput
+    id="password1"
+    v-model="password1"
+    :error="!!errors.password1"
+    :error-message="errors.password1"
+    label="비밀번호"
+    :type="passwordLook.type"
+    placeholder="비밀번호를 입력해주세요"
+  >
+    <template #icon>
+      <button class="inline-flex absolute inset-y-0 right-4 items-center" @click="passwordLook.toggle">
+        <EyeOffIcon
+          v-if="passwordLook.eyes"
+          class="w-5 h-5"
+          :class="`text-${!!errors.password1 ? 'red-600' : 'gray-400'}`"
+        />
+        <EyeIcon v-else class="w-5 h-5" :class="`text-${!!errors.password1 ? 'red-600' : 'gray-400'}`" />
       </button>
-    </div>
-  </div>
+    </template>
+  </FormInput>
 
-  <div>
-    <label for="password" class="text-sm font-medium">비밀번호 확인</label>
-
-    <div class="relative my-2">
-      <input
-        id="password"
-        v-model="password2"
-        :type="passwordType"
-        class="p-4 pr-12 w-full text-sm rounded-lg border-gray-200 shadow-sm"
-        placeholder="비밀번호를 입력해주세요"
-      />
-
-      <button class="inline-flex absolute inset-y-0 right-4 items-center" @click="togglePasswordType">
-        <EyeOffIcon v-if="passwordEye" class="w-5 h-5 text-gray-400" />
-        <EyeIcon v-else class="w-5 h-5 text-gray-400" />
+  <FormInput
+    id="password2"
+    v-model="password2"
+    :error="!!errors.password2"
+    :error-message="errors.password2"
+    label="비밀번호확인"
+    :type="passwordLook.type"
+    placeholder="비밀번호를 입력해주세요"
+  >
+    <template #icon>
+      <button class="inline-flex absolute inset-y-0 right-4 items-center" @click="passwordLook.toggle">
+        <EyeOffIcon
+          v-if="passwordLook.eyes"
+          class="w-5 h-5"
+          :class="`text-${!!errors.password2 ? 'red-600' : 'gray-400'}`"
+        />
+        <EyeIcon v-else class="w-5 h-5" :class="`text-${!!errors.password2 ? 'red-600' : 'gray-400'}`" />
       </button>
-    </div>
-  </div>
+    </template>
+  </FormInput>
 
-  <button class="block py-3 px-5 my-3 w-full text-sm font-medium text-white bg-primary-500 rounded-lg" @click="signUp">
-    회원가입
-  </button>
+  <button class="btn-signup" @click="signUp">회원가입</button>
 </template>
+
+<style scoped>
+  .btn-signup {
+    @apply block py-3 px-5 my-3 w-full text-sm font-medium text-white bg-primary-500 rounded-lg;
+  }
+</style>
