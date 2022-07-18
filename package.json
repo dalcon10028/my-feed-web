@@ -10,7 +10,7 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
-    "@vueuse/integrations": "^8.7.5",
+    "@vueuse/integrations": "^8.9.4",
     "axios": "^0.27.2",
     "vee-validate": "^4.5.11",
     "vue": "^3.2.37",
